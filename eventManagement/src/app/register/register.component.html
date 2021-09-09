@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row" style="padding-top: 100px;">
+        <div class="col-md-8" style=" margin: auto; padding-left: 100px;">
+          <h1 style="font-size: 80px;">Event Booking</h1>
+        </div>
+
+        <div class="col-md-4" >
+          <form>
+            <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+
+            <div class="form-floating">
+              <input type="email" class="form-control" id="Email" placeholder="name@example.com">
+              <label for="floatingInput">Email address</label>
+            </div>
+            <br>
+
+
+            <div class="form-floating">
+              <input type="password" class="form-control" id="Password" placeholder="Password">
+              <label for="floatingPassword">Password</label>
+            </div>
+            <br>
+
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="Password" placeholder="Password">
+                <label for="floatingPassword">Confirm Password</label>
+            </div>
+            <br>
+
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="FirstName" placeholder="">
+                <label for="floatingInput">First Name</label>
+            </div>
+            <br>
+
+
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="LastName" placeholder="">
+                <label for="floatingInput">Last Name</label>
+            </div>
+            <br>
+
+
+
+            <div class="form-floating">
+                <input type="number" class="form-control" id="Number" placeholder="">
+                <label for="floatingInput">Phone Number</label>
+            </div>
+            <br>
+            <a href="/login">Already a user? Sign In</a>
+
+            <a routerLink="login">
+              <button (click)="SignUp()"  class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+            </a>
+          </form>
+        </div>
+    </div>
+</div>

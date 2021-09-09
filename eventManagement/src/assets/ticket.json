@@ -1,0 +1,40 @@
+[
+  {
+    "eventID":1,
+    "ticketCategory":"Gold",
+    "price":800,
+    "NoOfTickets":1200
+
+  },
+  {
+    "eventID":1,
+    "ticketCategory":"Platinum",
+    "price":800,
+    "NoOfTickets":1200
+  },
+  {
+    "eventID":2 ,
+    "ticketCategory":"Silver",
+    "price":800,
+    "NoOfTickets":1200
+  },
+  {
+    "eventID":2,
+    "ticketCategory":"Platinum",
+    "price":1500,
+    "NoOfTickets":10
+  },
+  {
+    "eventID":3,
+    "ticketCategory":"Gold",
+    "NoOfTickets":20,
+    "price":1322
+  },
+  {
+    "eventID":3,
+    "ticketCategory":"Platinum",
+    "NoOfTickets":1,
+    "price":22
+  }
+
+]

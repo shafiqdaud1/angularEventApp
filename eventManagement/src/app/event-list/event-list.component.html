@@ -1,0 +1,128 @@
+
+<div class="h-50 p-5 text-white bg-dark rounded-3">
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <nav style="padding-left: 150px;">
+        <a href="/eventList" style="font-size: 22px; color: white; text-decoration: none; " >Home</a>
+        <a href="" style="padding-left: 20px;font-size: 22px;color: white;text-decoration: none;">Booking</a>
+        <a href="/login" style="padding-left: 20px;font-size: 22px;color: white; text-decoration: none;">LogOut</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container-fluid py-5">
+
+    <h1 class="display-5 fw-bold" style="padding-left: 35%; font-size: 55px;">Event Booking</h1>
+    <br>
+    <br>
+    <br>
+    <p class="col-md-10 fs-4" style="padding-left: 350px;">Welcome to Event Booking. Here you can find different events happeing near you or in your country.</p>
+
+  </div>
+</div>
+<br>
+
+<div class="upcoming">
+  <h2 style="margin-left:38%">Up Coming Events</h2>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-5 mx-auto my-5" *ngFor="let card of events;let index=index">
+
+      <mdb-card>
+        <mdb-card-body>
+          <mdb-card-img src={{card.image}} ></mdb-card-img>
+          <mdb-card-title>
+            <h4>EventName: {{card.EventName}}</h4>
+          </mdb-card-title>
+
+          <mdb-card-text>
+           <span style="font-weight: bold;">Description:</span>  {{card.Description}}
+          </mdb-card-text>
+          <mdb-card-text>
+            <span style="font-weight: bold;">Date</span>: {{card.Date}}
+          </mdb-card-text>
+          <mdb-card-text>
+            <span style="font-weight: bold;">Time:</span> {{card.Time}}
+          </mdb-card-text>
+          <mdb-card-text>
+            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.Venue}}
+          </mdb-card-text>
+
+          <button (click)="detail(index)" mdbBtn color="primary">Details</button>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-dark text-muted">
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <br>
+            <i class="fas fa-gem me-3"></i>Event Booking Pvt ltd.
+          </h6>
+          <p>
+            Leave your tensions behind and enjoy your day with us.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+
+
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <br>
+          <h6 class="text-uppercase fw-bold mb-4">
+            Useful links
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">About</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Home</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Booking</a>
+          </p>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <br>
+          <h6 class="text-uppercase fw-bold mb-4">
+            Contact
+          </h6>
+          <p><i class="fas fa-home me-3"></i> Lahore,Pakistan</p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            a@example.com
+          </p>
+
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+</footer>
