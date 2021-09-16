@@ -10,17 +10,17 @@
     </div>
   </div>
 
-  <div class="container-fluid py-5">
+  <div class="container-fluid py-5" >
 
-    <h1 class="display-5 fw-bold" style="padding-left: 35%;">Name : {{eventDetail?.EventName}}</h1>
+    <h1 class="display-5 fw-bold" style="padding-left: 350px;"  >Name : {{eventDetail[0].Event_Name}}</h1>
     <br>
-    <p class="col-md-10 fs-4" style="padding-left: 350px;">Description: {{eventDetail?.Description}}</p>
+    <p class="col-md-10 fs-4" style="padding-left: 350px;" >Description: {{eventDetail[0].Description}}</p>
     <br>
-    <p class="col-md-10 fs-4" style="padding-left: 350px;">Date:{{eventDetail?.Date}}</p>
+    <p class="col-md-10 fs-4" style="padding-left: 350px;">Date:{{eventDetail[0].DateTime}}</p>
     <br>
-    <p class="col-md-10 fs-4" style="padding-left: 350px;">Time:{{eventDetail?.Time}}</p>
+    <p class="col-md-10 fs-4" style="padding-left: 350px;">Time:</p>
     <br>
-    <p class="col-md-10 fs-4" style="padding-left: 350px;">Venue:{{eventDetail?.Venue}}</p>
+    <p class="col-md-10 fs-4" style="padding-left: 350px;">Venue:{{eventDetail[0].Location}}</p>
 
 
 
@@ -33,11 +33,11 @@
 
 <div class="container" >
   <div class="row">
-    <div class="col-md-3" *ngFor='let items of ticketDetail'>
+    <div class="col-md-3" *ngFor='let items of eventDetail'>
       <mdb-card *ngIf= 'eventDetail?.id === items.eventID'>
-        <mdb-card-title>Category:{{items.ticketCategory}}</mdb-card-title>
+        <mdb-card-title>Category:{{items.CategoryName}}</mdb-card-title>
         <mdb-card-text>Price: {{items.price}}</mdb-card-text>
-        <mdb-card-text>Tickets Available:{{items.NoOfTickets}}</mdb-card-text>
+        <mdb-card-text>Tickets Available:{{items.TicketsAvailable}}</mdb-card-text>
         <button>Book now</button>
 
 

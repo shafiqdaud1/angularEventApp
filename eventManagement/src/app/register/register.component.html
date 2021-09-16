@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <div class="row" style="padding-top: 100px;">
         <div class="col-md-8" style=" margin: auto; padding-left: 100px;">
           <h1 style="font-size: 80px;">Event Booking</h1>
@@ -10,7 +10,7 @@
 
 
             <div class="form-floating">
-              <input type="email" class="form-control" id="Email" placeholder="name@example.com">
+              <input type="email" class="form-control" id="Email" placeholder="name@example.com" ngModel="email"  name="email" >
               <label for="floatingInput">Email address</label>
             </div>
             <br>
@@ -59,4 +59,31 @@
           </form>
         </div>
     </div>
+</div> -->
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-3" >
+
+    </div>
+    <div class="col-3"style="margin-top: 28%"> <p style="font-size: 40px; font-weight: bold;">Event Booking</p></div>
+    <div class="col-3"></div>
+    <div class="col-3" style="margin-top: 17%;">
+      <h1 style="font-size: 25px;">Registration Form</h1>
+      <br>
+      <p style="font-weight: bold;font-size: 20px;"> First Name <input type="text" [(ngModel)]="FName" > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;" > Last Name <input type="text" [(ngModel)]="LName" > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;"> Email<br> <input type="email" [(ngModel)]="email" > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;">Password <input type="password" [(ngModel)]="password"></p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px; ">Phone Number <input type="number" [(ngModel)]="number"></p>
+      <button class="btn btn-primary" (click)="SignUp()" > Sign Up</button>
+
+    </div>
+  </div>
 </div>

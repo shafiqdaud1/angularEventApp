@@ -13,6 +13,10 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+
 
 
 
@@ -22,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     RegisterComponent,
     EventListComponent,
-    EventDetailComponent
+    EventDetailComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatCardModule,
     MDBBootstrapModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

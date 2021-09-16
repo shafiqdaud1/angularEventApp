@@ -29,29 +29,29 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-5 mx-auto my-5" *ngFor="let card of events;let index=index">
+    <div class="col-5 mx-auto my-5" *ngFor="let card of events">
 
       <mdb-card>
         <mdb-card-body>
           <mdb-card-img src={{card.image}} ></mdb-card-img>
           <mdb-card-title>
-            <h4>EventName: {{card.EventName}}</h4>
+            <h4>EventName: {{card.Event_Name}}</h4>
           </mdb-card-title>
 
           <mdb-card-text>
            <span style="font-weight: bold;">Description:</span>  {{card.Description}}
           </mdb-card-text>
           <mdb-card-text>
-            <span style="font-weight: bold;">Date</span>: {{card.Date}}
+            <span style="font-weight: bold;">Date</span>: {{card.DateTime}}
           </mdb-card-text>
           <mdb-card-text>
             <span style="font-weight: bold;">Time:</span> {{card.Time}}
           </mdb-card-text>
           <mdb-card-text>
-            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.Venue}}
+            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.location}}
           </mdb-card-text>
 
-          <button (click)="detail(index)" mdbBtn color="primary">Details</button>
+          <button (click)="detail(card.Event_ID)" mdbBtn color="primary">Details</button>
         </mdb-card-body>
       </mdb-card>
     </div>

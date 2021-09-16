@@ -1,15 +1,17 @@
 
-import { catchError, filter,map } from 'rxjs/operators';
+import { catchError, filter,map, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, observable } from 'rxjs';
 
 import {Events} from '../model';
 
 import {HttpClient} from '@angular/common/http';
 
 import {Ticket} from '../ticket';
+
+// import { url } from 'inspector';
 
 
 
@@ -23,16 +25,20 @@ export class SharedService {
   private readonly ticketUrl='assets/ticket.json';
 
   ticket:any;
-
+  event:any;
   // eventDetail:any
 
   constructor(private httpClient: HttpClient) { }
 
 
-  public getEventDetail(){
+  // public getEventDetail(){
 
-    return this.httpClient.get<Array<Events>>(this.modelUrl).pipe(catchError(this.handleResponse));
-  }
+  //   return this.httpClient.get<Array<Events>>(this.modelUrl).pipe(catchError(this.handleResponse));
+  // }
+
+
+
+
 
   public getEvent(index:number)
   {
@@ -50,6 +56,10 @@ export class SharedService {
      return  this.httpClient.get<Array<Ticket>>(this.ticketUrl).pipe(catchError(this.handleResponse));
 
   }
+
+
+
+
 
   protected handleResponse(data: Response | any): any {
     if (data) {
