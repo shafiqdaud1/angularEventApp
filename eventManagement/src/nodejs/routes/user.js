@@ -21,7 +21,7 @@ router.use(function (req, res, next) {
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Credentials', true);
 
   next();
 });
@@ -189,6 +189,22 @@ router.post('/:user/login',(req,res)=>{
         };
     })
 
+})
+
+
+//getAdmminLogin
+router.post("/user/admin",(req,res)=>{
+  const{adminEmail, adminPass}=req.body;
+  mysql.query("Select * from admin where adminEmail=? and adminPass=?",[adminEmail,adminPass],(error,rows)=>{
+    if(rows.length>0){
+      res.send({status: 200});
+
+    }else{
+      console.log(adminPass)
+      console.log(adminEmail)
+      res.send({status:403});
+    }
+  })
 })
 
 //updating available tickets after booking

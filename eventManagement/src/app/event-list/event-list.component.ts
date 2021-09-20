@@ -61,4 +61,9 @@ export class EventListComponent implements OnInit {
     this.router.navigate(['eventDetail',eventIndex]);
   }
 
+  logout(){
+    localStorage.setItem('data','');
+
+  }
+
 }

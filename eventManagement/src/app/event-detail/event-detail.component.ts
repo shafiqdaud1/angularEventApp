@@ -56,14 +56,17 @@ export class EventDetailComponent implements OnInit {
 
     })
 
-    // this.share.getTickets().subscribe((ticketDetail:any)=>{
-    //   this.ticketDetail=ticketDetail;
 
-
-    // })
 
 
   }
+
+
+  logout(){
+    localStorage.setItem('data','')
+  }
+
+
 
 
 

@@ -10,11 +10,16 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
 import { HttpClientModule } from '@angular/common/http';
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 
 
@@ -27,6 +32,8 @@ import { FormsModule } from '@angular/forms';
     RegisterComponent,
     EventListComponent,
     EventDetailComponent,
+    AdminPanelComponent,
+    DashboardComponent,
 
   ],
   imports: [
@@ -37,7 +44,11 @@ import { FormsModule } from '@angular/forms';
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
