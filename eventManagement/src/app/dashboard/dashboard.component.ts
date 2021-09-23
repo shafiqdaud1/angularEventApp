@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav'
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Chart } from 'chart.js';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -11,46 +14,107 @@ import { Chart } from 'chart.js';
 export class DashboardComponent implements OnInit {
 
   chart:any = [];
-  data:any;
+  events:any;
+  userLenght:any;
 
-  constructor( private observer: BreakpointObserver) { }
+
+
+  constructor( private observer: BreakpointObserver,private httpClient: HttpClient, private router: ActivatedRoute, private route:Router ) { }
 
   ngOnInit(): void {
 
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
 
 
-    this. data=[
-      {
-        label: ['a','b','c'],
-        data: [1,2,3]
-      }
-    ];
-    this.chart=new Chart('canvas',{
-      type: 'bar',
-      data: {
-        datasets: [
-          {
-            data:[15,5],
-            label:'Stats',
-            backgroundColor: '#007bff',
+     this.httpClient.get<any>('http://localhost:4000/user/events',requestOptions).subscribe(
+       Response=>{
+        this.events=Response.length;
+        console.log(this.events);
+
+        this.httpClient.get<any>('http://localhost:4000/user/userData').subscribe(
+          response1=>{
+            this.userLenght=response1.length;
+
+
+            this.chart=new Chart('canvas',{
+              type: 'bar',
+             data: {
+               datasets: [
+                 {
+                   data:[this.events,this.userLenght],
+                   label:'Stats',
+                   backgroundColor: '#007bff',
+
+                 }
+               ],
+                    labels: ['Events','Users'],
+             },
+             options: {
+               responsive: true,
+               scales: {
+                 yAxes: [{
+                   ticks: {
+                     suggestedMin:0,
+                     suggestedMax:10,
+                     beginAtZero:true
+                   }
+                 }]
+               }
+
+               }
+             }
+
+           )
+
 
           }
-        ],
-        labels: ['Events','Users'],
-      },
-      options: {
-        responsive: true,
-        scales: {
+        )
 
 
-        }
-        }
+
+
+
+
+
       }
 
-    )
+     )
 
 
+    }
+
+
+
+
+  showUser(){
+    this.route.navigateByUrl('userData')
+
+  }
+
+  eventsShow(){
+
+    this.route.navigateByUrl('eventData')
+
+  }
+
+  showTickets(){
+    this.route.navigateByUrl('ticketData')
+  }
+
+  ShowDashBoard(){
+    this.route.navigateByUrl('dashboard')
   }
 
 
 }
+

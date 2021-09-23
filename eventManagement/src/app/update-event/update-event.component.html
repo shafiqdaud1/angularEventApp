@@ -1,0 +1,29 @@
+
+
+
+<div class="container" >
+  <div class="row">
+    <div class="col-3" >
+
+    </div>
+    <div class="col-3"style="margin-top: 28%"> <p style="font-size: 40px; font-weight: bold;">Update Event</p></div>
+    <div class="col-3"></div>
+    <div class="col-3" style="margin-top: 10%;" *ngFor="let item of data">
+      <h1 style="font-size: 25px;">Update Event</h1>
+      <br>
+      <p style="font-weight: bold;font-size: 20px;"> Event Name <input type="text"  [(ngModel)]="eventName"  placeholder={{name}}  > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;">Description
+      <textarea name="Description" id="" cols="30" rows="10 " [(ngModel)]="eventDescription "  placeholder={{Description}}    >  </textarea>
+     </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;"> Location<br> <input type="text"  [(ngModel)]="eventLocation"  placeholder={{eventLocation}}   > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;">Date Time <ejs-datetimepicker  [(ngModel)]="eventDateTime"  placeholder={{eventDateTime}}  ></ejs-datetimepicker> </p>
+
+      <button class="btn btn-primary" (click)="updateEvent()"   >Update Event</button>&nbsp;&nbsp;
+      <button class="btn btn-primary" (click)="cancel()" >Cancel</button>
+
+    </div>
+  </div>
+</div>

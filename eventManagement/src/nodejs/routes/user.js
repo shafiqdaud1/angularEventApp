@@ -8,7 +8,6 @@ const authenticateToken=require("../middleware");
 
 
 
-
 router.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -197,7 +196,19 @@ router.post("/user/admin",(req,res)=>{
   const{adminEmail, adminPass}=req.body;
   mysql.query("Select * from admin where adminEmail=? and adminPass=?",[adminEmail,adminPass],(error,rows)=>{
     if(rows.length>0){
-      res.send({status: 200});
+      const token=jwt.sign({
+        EmailAddress: rows[0].email
+    }, "secret",
+    {
+        expiresIn: "1h"
+    }
+    );
+    console.log(token);
+
+      res.send({
+        status: 200,
+        token: token
+      });
 
     }else{
       console.log(adminPass)
@@ -312,5 +323,118 @@ router.post('/user/cart',(req,res)=>{
     });
 
 });
+
+//////////////ADMIN SIDE API////////////////////////////////////////
+
+router.get('/user/userData',(req,res)=>{
+  mysql.query("Select * from user",(error,result,field)=>{
+    if(error){
+      console.log(error)
+    }else{
+      //console.log(result);
+      res.status(200).send(result);
+    }
+  })
+})
+
+router.get('/user/AdminEvent',(req,res)=>{
+  mysql.query("Select * from event",(error,result)=>{
+    let array=[];
+    if(error){
+      console.log(error);
+    }else{
+     // console.log(result);
+     for(let i=0; i < result.length ; i++ ){
+       array.push(result[i]);
+     }
+
+     res.send(array);
+
+    }
+  })
+})
+
+router.get('/user/AdminTickets',(req,res)=>{
+  mysql.query("Select * from ticket",(error,result)=>{
+    let array=[];
+    if(error){
+      console.log(error);
+    }else{
+      for(let i=0;i<result.length;i++){
+        array.push(result[i])
+      }
+      res.send(array);
+    }
+  })
+})
+
+
+router.delete('/user/eventDel/:EventID',(req,res)=>{
+
+  const{EventID}=req.params;
+  mysql.query("Delete from event where Event_ID=? ",[EventID],(error,result,field)=>{
+    if(error){
+      console.log(error);
+    }else
+      res.status(200);
+  });
+})
+
+
+router.delete('/user/userDel/:userID',(req,res)=>{
+
+  const{userID}=req.params;
+  mysql.query("Delete from user where UserID=?",[userID],(error,result)=>{
+    if(error){
+      console.log(error)
+    }else{
+      res.status(200);
+    }
+  })
+})
+
+router.delete('/user/ticketDel/:TicketID',(req,res)=>{
+  const{TicketID}=req.params;
+  mysql.query("Delete from ticket where TicketID=?",[TicketID],(error,result)=>{
+    if(error){
+      console.log(error)
+    }else{
+      console.log("done");
+    }
+  })
+})
+
+
+//addEvent
+router.post('/admin/addEvent',(req,res)=>{
+  const{Event_Name, Description,Location,DateTime}=req.body;
+  mysql.query('INSERT INTO event(Event_Name,Description,Location,DateTime) VALUES(?,?,?,?);',
+  [Event_Name,Description,Location,DateTime]  , (error,rows,field)=>{
+      if(!error){
+          return res.json({Status:200});
+      }else{
+          console.log(error);
+      }
+  });
+
+})
+
+//updateEvent
+router.put('/admin/updateEvent/:Event_ID',(req,res)=>{
+  const{Event_ID}=req.params;
+
+  const {Event_Name,Description,Location,DateTime}=req.body;
+  console.log(req.body);
+  mysql.query('Update event set Event_Name=?,Description=?,Location=?,DateTime=?  where Event_ID=? ',[Event_Name,Description,Location,DateTime,Event_ID],(error,rows,field)=>{
+    console.log(Event_Name);
+    if(!error){
+          res.json({Status: 200});
+      }else{
+          console.log(error);
+      }
+   });
+});
+
+
 
 module.exports=router;

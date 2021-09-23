@@ -44,11 +44,21 @@
     <div class="content mat-elevation-z4">
 
 
+      <div class=""  >
+        <ag-grid-angular   style="width: 1000px; height: 500px;"
+        class="ag-theme-alpine"
+        [rowData]=" rowData "
+        [columnDefs]="columnDefs"
+        (selectionChanged)="onSelectionChanged($event)"
+        [immutableData]='true'
+        [getRowNodeId]="getRowNodeId"
+        rowSelection="single">
 
-      <div style="width: 50%;">
+        </ag-grid-angular>
 
-        <h1>Users and Events</h1>
-        <canvas id="canvas"></canvas>
+        <button (click)="delEvent()">Delete</button>  &nbsp;
+        <button>add</button>  &nbsp;
+        <button>update</button>
       </div>
     </div>
 

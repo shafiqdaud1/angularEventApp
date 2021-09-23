@@ -33,8 +33,7 @@ export class AdminPanelComponent implements OnInit {
     this.httpClient.post<any>('http://localhost:4000/user/admin',body).subscribe(
       (Response1)=>{
         if(Response1.status==200){
-          // console.log(Response1);
-          // console.log("done");
+          localStorage.setItem('adminToken',Response1.token);
           this.router.navigateByUrl("/dashboard");
 
         }else if(Response1.stauts==403){

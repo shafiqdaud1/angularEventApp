@@ -4,11 +4,8 @@ import { Router } from '@angular/router';
 
 import { Component, OnInit } from '@angular/core';
 
-import {SharedService} from "../shared/shared.service";
 
-import {Events} from "../model";
 
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -25,7 +22,6 @@ export class EventListComponent implements OnInit {
 
   constructor(
     private router:Router,
-    private shared: SharedService,
     private httpClient:HttpClient
     ) { }
 
@@ -49,6 +45,7 @@ export class EventListComponent implements OnInit {
         Response =>{
           //console.log(Response);
           this.events=Response;
+
           console.log(this.events)
         }
       );
