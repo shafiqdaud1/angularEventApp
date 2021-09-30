@@ -27,12 +27,16 @@
       <mat-icon>event</mat-icon>
       Events
     </button><br>
+    <button mat-button class='menu-button' (click)="categoryShow()">
+      <mat-icon>payments</mat-icon>
+      TicketCategory
+    </button><br>
 
 
 
 
 
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>
@@ -58,9 +62,9 @@
 
         </ag-grid-angular>
 
-        <button (click)="delEvent()">Delete</button>  &nbsp;
-        <button>add</button>  &nbsp;
-        <button>update</button>
+        <button class="btn btn-primary" (click)="delEvent()">Delete</button>  &nbsp;
+        <button class="btn btn-primary" (click)="addTicket()">add </button>  &nbsp;
+        <button class="btn btn-primary" (click)="updateTicket()">update</button>
       </div>
     </div>
 

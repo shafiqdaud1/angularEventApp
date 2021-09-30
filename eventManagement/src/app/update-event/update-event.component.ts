@@ -1,6 +1,8 @@
+import { AlertifyService } from './../alertify.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient,HttpHeaders } from '@angular/common/http'
+import { arrayMax } from 'highcharts';
 @Component({
   selector: 'app-update-event',
   templateUrl: './update-event.component.html',
@@ -15,13 +17,12 @@ export class UpdateEventComponent implements OnInit {
   eventDescription:any;
   eventLocation:any;
   eventDateTime:any;
+  check:any=[];
 
-  name:any;
-  Description:any;
-  Location:any;
-  DateTime:any;
 
-  constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient,
+    private alertify: AlertifyService
+    ) {
 
   }
 
@@ -31,10 +32,10 @@ export class UpdateEventComponent implements OnInit {
 
 
     this.eventID=this.data[0].Event_ID;
-    this.name=this.data[0].Event_Name;
-    this.Description=this.data[0].Description;
-    this.DateTime=this.data[0].DateTime;
-    this.Location=this.data[0].Location;
+    this.eventName=this.data[0].Event_Name;
+    this.eventDescription=this.data[0].Description;
+    this.eventDateTime=this.data[0].DateTime;
+    this.eventLocation=this.data[0].Location;
 
    // console.log(this.DateTime)
 
@@ -42,16 +43,39 @@ export class UpdateEventComponent implements OnInit {
   }
 
   updateEvent(){
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
     console.log(this.eventID)
-    const headers= {'content-type':'application/json'};
-    const data={'Event_Name':this.eventName, 'Description':this.eventDescription, 'Location':this.eventLocation, 'DateTime':this.DateTime}
-    this.http.put(`http://localhost:4000/admin/updateEvent/${this.eventID}`,data,{headers}).subscribe(res=>{
+
+    const data={'Event_Name':this.eventName, 'Description':this.eventDescription, 'Location':this.eventLocation, 'DateTime':this.eventDateTime}
+    this.http.put(`http://localhost:4000/admin/updateEvent/${this.eventID}`,data,requestOptions).subscribe(Response=>{
+
+      this.check.push(Response)
+      if(this.check[0]["status"]==200){
+
+        this.alertify.success('Event Updated')
+        this.router.navigateByUrl('eventData')
+      }else{
+        this.alertify.error("Cannot Update");
+      }
+
+
 
     })
   }
 
   cancel(){
-
+    this.alertify.warning("update cancel")
     this.router.navigateByUrl('eventData');
   }
 

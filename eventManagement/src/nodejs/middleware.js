@@ -19,6 +19,7 @@ function authenticateToken(req,res,next){
             console.log(err);
             return res.status(404);
         }else{
+            console.log("123123212");
             console.log("key varified.");
             data,
             next();

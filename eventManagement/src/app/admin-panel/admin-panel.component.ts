@@ -1,3 +1,4 @@
+import { AlertifyService } from './../alertify.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -14,7 +15,7 @@ export class AdminPanelComponent implements OnInit {
   adminForm: FormGroup;
 
 
-  constructor(private httpClient:HttpClient,private router:Router,private router1:ActivatedRoute) { }
+  constructor(private httpClient:HttpClient,private router:Router,private router1:ActivatedRoute, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
 
@@ -32,14 +33,16 @@ export class AdminPanelComponent implements OnInit {
 
     this.httpClient.post<any>('http://localhost:4000/user/admin',body).subscribe(
       (Response1)=>{
+        console.log(Response1.status)
         if(Response1.status==200){
+
           localStorage.setItem('adminToken',Response1.token);
+          this.alertify.success("Login Successful")
           this.router.navigateByUrl("/dashboard");
 
-        }else if(Response1.stauts==403){
-          console.log('error');
+        }else{
+          this.alertify.error("Invalid credentials")
         }
-
       }
     )
 

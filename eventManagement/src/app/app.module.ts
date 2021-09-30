@@ -1,3 +1,4 @@
+import { ErrorHandlingInterceptor } from './error-handling.interceptor';
 import { Component, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,7 +10,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HttpErrorResponse,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
@@ -27,6 +28,12 @@ import { AddTicketComponent } from './add-ticket/add-ticket.component';
 import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
+import { TicketCategoryComponent } from './ticket-category/ticket-category.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import {MatDialogModule } from '@angular/material/dialog';
+import { AlertifyService } from './alertify.service';
+
+
 
 
 
@@ -49,9 +56,15 @@ import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
     AddTicketComponent,
     UpdateEventComponent,
     UpdateTicketComponent,
+    TicketCategoryComponent,
+    AddCategoryComponent,
+
+
+
 
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -66,10 +79,18 @@ import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
     MatDividerModule,
     AgGridModule.withComponents([]),
     DateTimePickerModule,
+    MatDialogModule
 
 
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorHandlingInterceptor,
+    multi: true
+  },
+  AlertifyService,
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

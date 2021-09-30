@@ -1,8 +1,12 @@
+import { AlertifyService } from './../alertify.service';
 import { NavigationExtras,Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {AgGridAngular} from 'ag-grid-angular';
 import { GridApi } from 'ag-grid-community';
+
+
+
 
 
 @Component({
@@ -15,7 +19,7 @@ export class EventDataComponent implements OnInit {
 
 
 
-  constructor(private route: Router, private httpClient: HttpClient) { }
+  constructor(private route: Router, private httpClient: HttpClient, private alertify: AlertifyService,) { }
 
   columnDefs = [
     { field: 'Event_ID' ,},
@@ -31,12 +35,28 @@ export class EventDataComponent implements OnInit {
 
   ngOnInit(): void {
 
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
 
 
-    this.httpClient.get<any>('http://localhost:4000/user/AdminEvent').subscribe(response=>{
 
-      console.log(response);
-      this.rowData=response;
+    this.httpClient.get<any>('http://localhost:4000/user/AdminEvent ',requestOptions).subscribe(response=>{
+      if(response.status==200){
+        //this.alertify.success("data found");
+        this.rowData=response.array;
+      }else{
+        this.alertify.error(response)
+      }
+
     })
 
   }
@@ -78,17 +98,54 @@ export class EventDataComponent implements OnInit {
   }
 
   delEvent(){
+
+
+
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+
     if(!this.selectedData){
       return ;
     }
 
     let a;
+    let check:any=[];
     a=this.selectedData.Event_ID;
+    if(confirm("Are you sure to delete ")){
+      this.httpClient.delete(`http://localhost:4000/user/eventDel/${a}`,requestOptions).subscribe(
+        response=>{
 
-    this.httpClient.delete(`http://localhost:4000/user/eventDel/${a}`).subscribe();
-    window.location.reload();
+          check.push(response)
+          console.log(check[0])
+          if(check[0]['status']==200){
+
+            window.location.reload();
+            this.alertify.success('Event deleted');
+          }else{
+            this.alertify.error('Cannot delete event. First delete its relevant ticket')
+          }
+
+        }
+      );
+
+    }
+
+
 
   }
+
+
+
 
   getRowNodeId(user:any){
     return user.Event_ID
@@ -97,10 +154,22 @@ export class EventDataComponent implements OnInit {
 
   updateEvent(){
 
-
     this.route.navigateByUrl('/updateEvent', {state: this.selectedData} );
 
   }
+
+  categoryShow(){
+    this.route.navigateByUrl('ticketCategory')
+  }
+
+  logout(){
+    localStorage.setItem('adminToken','');
+
+    this.route.navigateByUrl('adminLogin')
+  }
+
+
+
 
 
 }

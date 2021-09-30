@@ -1,1 +1,55 @@
-<p>add-ticket works!</p>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-3" >
+
+    </div>
+    <div class="col-3"style="margin-top: 28%"> <p style="font-size: 40px; font-weight: bold;">Add New Ticket</p></div>
+    <div class="col-3"></div>
+    <div class="col-3" style="margin-top: 10%;">
+      <h1 style="font-size: 25px;">Add NEW Ticket</h1>
+      <br>
+
+      <div class="col">
+
+        <div ngbDropdown class="d-inline-block">
+          <label style="font-weight: bold;font-size: 20px;" > Event Name </label>&nbsp;
+          <select [(ngModel)]="eventName" name="EventName">
+          <option  *ngFor="let eventName of event" value="{{eventName.Event_ID}}">{{eventName.Event_Name}}</option>
+
+        </select>
+
+        </div>
+      </div>
+      <br>
+
+      <div class="col">
+
+        <div ngbDropdown class="d-inline-block">
+          <label style="font-weight: bold;font-size: 20px;" > Ticket Category </label>&nbsp;
+          <select [(ngModel)]="catName" name="categoryName">
+          <option  *ngFor="let ticketcategory of category" value="{{ticketcategory.CategoryName}}">{{ticketcategory.CategoryName}}</option>
+
+        </select>
+
+        </div>
+      </div>
+
+     <br>
+     <p style="font-weight: bold;font-size: 20px;">Ticket Price
+      <br>
+      <input type="text" [(ngModel)]="price">
+     </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;"> TicketsAvailable<br> <input type="text"  [(ngModel)]="ticketsAvailable" > </p>
+     <br>
+
+
+      <button class="btn btn-primary"  (click)="addTicket()"  >Add Ticket</button>&nbsp;&nbsp;
+      <button class="btn btn-primary" (click)="cancel()" >Cancel</button>
+
+    </div>
+  </div>
+</div>
+

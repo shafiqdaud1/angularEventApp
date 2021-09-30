@@ -33,7 +33,7 @@
 
       <mdb-card>
         <mdb-card-body>
-          <mdb-card-img src={{card.image}} ></mdb-card-img>
+
           <mdb-card-title>
             <h4>EventName: {{card.Event_Name}}</h4>
           </mdb-card-title>
@@ -42,13 +42,15 @@
            <span style="font-weight: bold;">Description:</span>  {{card.Description}}
           </mdb-card-text>
           <mdb-card-text>
-            <span style="font-weight: bold;">Date</span>: {{card.DateTime}}
+            <span style="font-weight: bold;">Date</span>: {{card.DateTime | date}}
           </mdb-card-text>
           <mdb-card-text>
-            <span style="font-weight: bold;">Time:</span> {{card.Time}}
+
+            <span style="font-weight: bold;">Time</span>: {{card.DateTime | date:'hh:mm a'}}
           </mdb-card-text>
+
           <mdb-card-text>
-            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.location}}
+            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.Location}}
           </mdb-card-text>
 
           <button (click)="detail(card.Event_ID)" mdbBtn color="primary">Details</button>

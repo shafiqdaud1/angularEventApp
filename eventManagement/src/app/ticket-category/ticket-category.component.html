@@ -10,7 +10,6 @@
 
     <mat-divider></mat-divider>
 
-
     <button mat-button class='menu-button' (click)="ShowDashBoard()" >
       <mat-icon>home</mat-icon>
       <span>Home</span>
@@ -45,29 +44,22 @@
 
   <mat-sidenav-content>
 
+    <div class=""  style="margin-left: 50px; margin-top:50px;" >
+      <ag-grid-angular   style="width: 1000px; height: 500px; "
+      class="ag-theme-alpine"
+      [rowData]=" rowData "
+      [columnDefs]="columnDefs"
+      (selectionChanged)="onSelectionChanged($event)"
+      [immutableData]='true'
+      [getRowNodeId]="getRowNodeId"
+      rowSelection="single">
 
-    <div class="content mat-elevation-z4">
+      </ag-grid-angular>
 
+      <button class="btn btn-primary" (click)="delCat()" >Delete</button>  &nbsp;
+      <button class="btn btn-primary" (click)="addCat()" >add</button>  &nbsp;
 
-      <div class=""  >
-        <ag-grid-angular   style="width: 1000px; height: 500px;"
-        class="ag-theme-alpine"
-        [rowData]=" rowData "
-        [columnDefs]="columnDefs"
-        (selectionChanged)="onSelectionChanged($event)"
-        [immutableData]='true'
-        [getRowNodeId]="getRowNodeId"
-        rowSelection="single">
-
-        </ag-grid-angular>
-
-        <button class="btn btn-primary" (click)="delEvent()">Delete</button>  &nbsp;
-
-        <button class="btn btn-primary" (click)="addEvent()">add</button>  &nbsp;
-        <button class="btn btn-primary" (click)="updateEvent()">update</button>
-      </div>
     </div>
-
 
 
   </mat-sidenav-content>

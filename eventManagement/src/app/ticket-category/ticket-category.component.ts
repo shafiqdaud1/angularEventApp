@@ -1,32 +1,26 @@
 import { AlertifyService } from './../alertify.service';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http'
+import { Router, ActivatedRoute } from '@angular/router';
 import { GridApi } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-ticket-data',
-  templateUrl: './ticket-data.component.html',
-  styleUrls: ['./ticket-data.component.scss']
+  selector: 'app-ticket-category',
+  templateUrl: './ticket-category.component.html',
+  styleUrls: ['./ticket-category.component.scss']
 })
-export class TicketDataComponent implements OnInit {
-
-  constructor(private route: Router, private httpClient: HttpClient,private alertify: AlertifyService) { }
+export class TicketCategoryComponent implements OnInit {
+  selectedData:any;
+  category:any=[];
+  rowData:any=[];
+  check:any=[];
 
   columnDefs = [
-    { field: 'Event_ID' },
-    { field: 'TicketID' },
-    { field: 'price'},
-    { field: 'TicketsAvailable'},
-    { field: 'CategoryName'}
+    { field: 'CategoryName' ,},
+
   ];
 
-  rowData: any[];
-  selectedData:any;
-
-  del:any=[];
-
-
+  constructor(private route: Router, private httpClient: HttpClient, private alertify:AlertifyService, ) { }
 
   ngOnInit(): void {
     var token=localStorage.getItem('adminToken');
@@ -42,19 +36,19 @@ export class TicketDataComponent implements OnInit {
     };
 
 
-    this.httpClient.get<any>('http://localhost:4000/user/AdminTickets',requestOptions).subscribe(response=>{
-      if(response.status==200){
-        this.rowData=response.array;
+    this.httpClient.get<any>('http://localhost:4000/user/AdminTicketCategory',requestOptions).subscribe(Response=>{
+      if(Response.status==200){
+        this.rowData=Response.array;
+
       }else{
-        this.alertify.error(response)
+        this.alertify.error(Response)
       }
 
-
+      console.log(this.rowData);
     })
 
+
   }
-
-
   showUser(){
     this.route.navigateByUrl('userData')
 
@@ -74,16 +68,20 @@ export class TicketDataComponent implements OnInit {
     this.route.navigateByUrl('dashboard')
   }
 
+  categoryShow(){
+    this.route.navigateByUrl('ticketCategory')
+  }
+
   onSelectionChanged({api}: {api: GridApi} ): void{
     const selection= api.getSelectedRows();
     if(selection.length===0){
       return;
     }
     this.selectedData=selection[0];
-    console.log(this.selectedData)
+
   }
 
-  delEvent(){
+  delCat(){
     var token=localStorage.getItem('adminToken');
     console.log(token);
 
@@ -101,19 +99,23 @@ export class TicketDataComponent implements OnInit {
     }
 
     let a;
-    a=this.selectedData.TicketID;
+    a=this.selectedData.CategoryName;
+
+
     if(confirm("Are you sure to delete ")){
-      this.httpClient.delete(`http://localhost:4000/user/ticketDel/${a}`,requestOptions).subscribe(res=>{
-        console.log(res);
-        this.del.push(res);
-        if(this.del[0]['status']==200){
-          this.alertify.success('ticket Deleted')
-          window.location.reload();
-        }else{
-          console.log(this.del[0])
-          this.alertify.error(this.del[0]["sqlMessage"])
-        }
-      });
+      this.httpClient.delete(`http://localhost:4000/user/catDel/${a}`,requestOptions).subscribe(Response=>{
+        this.check.push(Response);
+      if(this.check[0]['status']==200){
+        this.alertify.success("Category deleted");
+        window.location.reload();
+
+      }else{
+        this.alertify.error('Category assigned to ticket. Cannot delete before deleting relevant ticket')
+      }
+
+    });
+
+
     }
 
 
@@ -122,31 +124,25 @@ export class TicketDataComponent implements OnInit {
   }
 
   getRowNodeId(user:any){
-    return user.TicketID
+    return user.CategoryName
+
 
   }
 
-  addTicket(){
-    this.route.navigateByUrl('addticket')
+  addCat(){
+    this.route.navigateByUrl('addCategory')
   }
-
-  categoryShow(){
-    this.route.navigateByUrl('ticketCategory')
-  }
-
   logout(){
     localStorage.setItem('adminToken','');
 
     this.route.navigateByUrl('adminLogin')
   }
 
-  updateTicket(){
-    this.route.navigateByUrl('/updateTicket',{state: this.selectedData})
 
-  }
 
 
 
 
 }
+
 

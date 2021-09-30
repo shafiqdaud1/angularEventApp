@@ -1,1 +1,26 @@
-<p>update-ticket works!</p>
+
+
+
+<div class="container" >
+  <div class="row">
+    <div class="col-3" >
+
+    </div>
+    <div class="col-3"style="margin-top: 28%"> <p style="font-size: 40px; font-weight: bold;">Update Ticket</p></div>
+    <div class="col-3"></div>
+    <div class="col-3" style="margin-top: 10%;" *ngFor="let item of data" >
+      <h1 style="font-size: 25px;">Update Ticket</h1>
+      <br>
+      <p style="font-weight: bold;font-size: 20px;"> Price <br><input type="text" [(ngModel)]="price" placeholder={{item.price}}   > </p>
+     <br>
+     <p style="font-weight: bold;font-size: 20px;">Tickets Available
+      <input type="text" [(ngModel)]="availableTickets" placeholder={{item.TicketsAvailable}}>
+     </p>
+     <br>
+
+      <button class="btn btn-primary" (click)="update()">Update Ticket</button>&nbsp;&nbsp;
+      <button class="btn btn-primary"  (click)="cancel()" >Cancel</button>
+
+    </div>
+  </div>
+</div>

@@ -11,15 +11,15 @@
     <div class="col-3" style="margin-top: 10%;" *ngFor="let item of data">
       <h1 style="font-size: 25px;">Update Event</h1>
       <br>
-      <p style="font-weight: bold;font-size: 20px;"> Event Name <input type="text"  [(ngModel)]="eventName"  placeholder={{name}}  > </p>
+      <p style="font-weight: bold;font-size: 20px;"> Event Name <input type="text"  [(ngModel)]="eventName" placeholder={{data.Event_Name}} > </p>
      <br>
      <p style="font-weight: bold;font-size: 20px;">Description
-      <textarea name="Description" id="" cols="30" rows="10 " [(ngModel)]="eventDescription "  placeholder={{Description}}    >  </textarea>
+      <textarea name="Description" id="" cols="30" rows="10 " [(ngModel)]="eventDescription" placeholder={{data.Description}}   >  </textarea>
      </p>
      <br>
-     <p style="font-weight: bold;font-size: 20px;"> Location<br> <input type="text"  [(ngModel)]="eventLocation"  placeholder={{eventLocation}}   > </p>
+     <p style="font-weight: bold;font-size: 20px;"> Location<br> <input type="text" [(ngModel)]="eventLocation" placeholder={{data.Location}}  > </p>
      <br>
-     <p style="font-weight: bold;font-size: 20px;">Date Time <ejs-datetimepicker  [(ngModel)]="eventDateTime"  placeholder={{eventDateTime}}  ></ejs-datetimepicker> </p>
+     <p style="font-weight: bold;font-size: 20px;">Date Time <ejs-datetimepicker [(ngModel)]="eventDateTime" placeholder={{data.DateTime}} ></ejs-datetimepicker> </p>
 
       <button class="btn btn-primary" (click)="updateEvent()"   >Update Event</button>&nbsp;&nbsp;
       <button class="btn btn-primary" (click)="cancel()" >Cancel</button>

@@ -1,3 +1,4 @@
+import { AlertifyService } from './../alertify.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +20,9 @@ export class DashboardComponent implements OnInit {
 
 
 
-  constructor( private observer: BreakpointObserver,private httpClient: HttpClient, private router: ActivatedRoute, private route:Router ) { }
+  constructor( private observer: BreakpointObserver,private httpClient: HttpClient, private router: ActivatedRoute, private route:Router,
+    private alertify:AlertifyService
+    ) { }
 
   ngOnInit(): void {
 
@@ -38,58 +41,54 @@ export class DashboardComponent implements OnInit {
 
      this.httpClient.get<any>('http://localhost:4000/user/events',requestOptions).subscribe(
        Response=>{
-        this.events=Response.length;
+         console.log(Response)
+        this.events=Response.array.length;
         console.log(this.events);
 
-        this.httpClient.get<any>('http://localhost:4000/user/userData').subscribe(
+        this.httpClient.get<any>('http://localhost:4000/user/userData',requestOptions).subscribe(
           response1=>{
-            this.userLenght=response1.length;
+            //console.log(response1.status);
 
+              this.userLenght=response1.array.length;
+              this.chart=new Chart('canvas',
+              {
+                type: 'bar',
+               data: {
+                 datasets: [
+                   {
+                     data:[this.events,this.userLenght],
+                     label:'Stats',
+                     backgroundColor: '#007bff',
 
-            this.chart=new Chart('canvas',{
-              type: 'bar',
-             data: {
-               datasets: [
-                 {
-                   data:[this.events,this.userLenght],
-                   label:'Stats',
-                   backgroundColor: '#007bff',
+                   }
+                 ],
+                      labels: ['Events','Users'],
+               },
+               options: {
+                 responsive: true,
+                 scales: {
+                   yAxes: [{
+                     ticks: {
+                       suggestedMin:0,
+                       suggestedMax:10,
+                       beginAtZero:true
+                     }
+                   }]
+                 }
 
                  }
-               ],
-                    labels: ['Events','Users'],
-             },
-             options: {
-               responsive: true,
-               scales: {
-                 yAxes: [{
-                   ticks: {
-                     suggestedMin:0,
-                     suggestedMax:10,
-                     beginAtZero:true
-                   }
-                 }]
                }
 
-               }
-             }
+             )
 
-           )
 
 
           }
         )
 
-
-
-
-
-
-
       }
 
      )
-
 
     }
 
@@ -113,6 +112,18 @@ export class DashboardComponent implements OnInit {
 
   ShowDashBoard(){
     this.route.navigateByUrl('dashboard')
+  }
+
+  categoryShow(){
+    this.route.navigateByUrl('ticketCategory')
+  }
+
+  logout(){
+
+
+    localStorage.setItem('adminToken','');
+    this.alertify.success("User logged Out")
+    this.route.navigateByUrl('adminLogin')
   }
 
 

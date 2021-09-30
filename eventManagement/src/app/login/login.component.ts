@@ -1,3 +1,4 @@
+import { AlertifyService } from './../alertify.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   check:any;
 
   constructor(private router:Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private alertify: AlertifyService
     ) { }
 
   ngOnInit(): void {
@@ -36,15 +38,15 @@ export class LoginComponent implements OnInit {
        (response1 :any)=>{
 
          if(response1.status==200){
-
            localStorage.setItem('data',response1.token);
           var token=localStorage.getItem('data');
           console.log(token);
+          this.router.navigateByUrl('/eventList');
+         }else if(response1.status==442){
 
+           this.alertify.error("Invalid credentials")
 
-              this.router.navigateByUrl('/eventList');
-         }else{
-           console.log("no")
+           console.log(response1)
          }
 
       }

@@ -1,7 +1,8 @@
+import { AlertifyService } from './../alertify.service';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute, } from '@angular/router';
-import {  HttpClient} from '@angular/common/http';
+import {  HttpClient,HttpHeaders} from '@angular/common/http';
 import { GridApi } from 'ag-grid-community';
 
 
@@ -24,16 +25,36 @@ export class UserDataComponent implements OnInit {
 
   rowData: any[];
   selectedData:any;
+  check:any=[];
 
 
 
 
-  constructor(private route: Router, private router:ActivatedRoute,private httpClient:HttpClient) { }
+  constructor(private route: Router, private router:ActivatedRoute,private httpClient:HttpClient, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
 
-    this.httpClient.get<any>('http://localhost:4000/user/userData').subscribe(res=>{
-      this.rowData=res;
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+
+    this.httpClient.get<any>('http://localhost:4000/user/userData',requestOptions).subscribe(res=>{
+      if(res.status==200){
+        this.rowData=res.array;
+
+      }  else{
+        this.alertify.error("no data found")
+      }
+
+      console.log(res.status)
     });
 
 
@@ -67,7 +88,19 @@ export class UserDataComponent implements OnInit {
     console.log(this.selectedData)
   }
 
-  delEvent(){
+  delUser(){
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
     if(!this.selectedData){
       return ;
     }
@@ -75,14 +108,38 @@ export class UserDataComponent implements OnInit {
     let a;
     a=this.selectedData.UserID;
 
-    this.httpClient.delete(`http://localhost:4000/user/userDel/${a}`).subscribe();
-    window.location.reload();
+    if(confirm("Are you sure to delete ")){
+      this.httpClient.delete(`http://localhost:4000/user/userDel/${a}`,requestOptions).subscribe(res=>{
+        this.check.push(res);
+        if(this.check[0]['status']==200){
+          this.alertify.success("user deleted")
+          window.location.reload();
+        }else{
+          this.alertify.error(this.check[0]['sqlMessage'])
+        }
+
+      });
+    }
+
+
+
 
   }
 
   getRowNodeId(user:any){
     return user.UserID
 
+  }
+
+  categoryShow(){
+    this.route.navigateByUrl('ticketCategory')
+  }
+
+  logout(){
+    this.alertify.success("LoggedOut")
+    localStorage.setItem('adminToken','');
+
+    this.route.navigateByUrl('adminLogin')
   }
 
 

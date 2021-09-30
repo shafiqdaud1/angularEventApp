@@ -1,9 +1,10 @@
+import { AlertifyService } from './../alertify.service';
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from "../shared/shared.service";
+
 import { Params,ActivatedRoute, Router } from '@angular/router';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 
-import {Events} from '../model';
+
 
 @Component({
   selector: 'app-event-detail',
@@ -15,12 +16,15 @@ export class EventDetailComponent implements OnInit {
   ticketDetail!:any;
   public index!:any;
   eventDetail:any;
+  formattedDate:any;
+  formattedTime:any;
 
   constructor(
     private router: Router,
-    private share:SharedService,
+
     private route:ActivatedRoute,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private alertify:AlertifyService
     ) { }
 
 
@@ -47,8 +51,18 @@ export class EventDetailComponent implements OnInit {
 
       this.httpClient.get<any>(`http://localhost:4000/user/ticket/${this.index}`,requestOptions).subscribe(
         Response=>{
-          this.eventDetail=Response;
-          console.log(this.eventDetail)
+          console.log(Response.status)
+          if(Response.status==200){
+            this.eventDetail=Response.array;
+
+
+
+
+
+          }else{
+            this.alertify.error(Response)
+          }
+
 
 
         }

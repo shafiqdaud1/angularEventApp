@@ -68,7 +68,7 @@ router.get('/user/ticket/:Event_ID',authenticateToken,(req,res)=>{
         }
        // console.log(cat);
         console.log(array);
-        res.status(200).json(array);
+        res.send({array, status:200});
         }else{
             console.log(error);
         }
@@ -101,8 +101,9 @@ router.get('/user/events',authenticateToken,(req,res)=>{
                 array.push(rows[i]);
             }
 
-            res.status(200).json(array);
+            res.send({array, status:200})
         }else{
+
             console.log('error');
         }
 })
@@ -127,6 +128,7 @@ router.post('/user/booking',authenticateToken,(req,res)=>{
 //register user api
 router.post('/:user',(req,res)=>{
     const { EmailAddress,password,FName,LName,phoneNumber}=req.body;
+
     mysql.query('Select Count(*) As cnt, password from user WHERE EmailAddress=? ',[EmailAddress],(error,rows)=>{
         if(error){
             console.log(error);
@@ -138,8 +140,9 @@ router.post('/:user',(req,res)=>{
                 mysql.query('INSERT INTO user(EmailAddress  ,password,FName,LName,phoneNumber) values(?,?,?,?,?);',
                 [EmailAddress,password,FName,LName,phoneNumber], (error,rows,field)=>{
                 if(!error){
-                      return res.status(200).json({Status:'User registered'});
+                      return res.send({status:200});
                 }else{
+                  res.send({status:404,error})
                     console.log(error);
                 }
                 });
@@ -155,7 +158,7 @@ router.post('/:user/login',(req,res)=>{
     const{EmailAddress,password}=req.body;
     mysql.query('Select UserID, FName, EmailAddress AS email, PASSWORD AS pas from user WHERE EmailAddress=? AND password=?'
     ,[EmailAddress,password],(error,rows)=>{
-        try{
+
             if(rows.length > 0  ){
                 const token=jwt.sign({
                     EmailAddress: rows[0].email
@@ -166,10 +169,7 @@ router.post('/:user/login',(req,res)=>{
                 );
                 user=rows[0]['UserID'].toString();
                 userName=rows[0]['FName'];
-
-                //console.log(token);
-
-                return res.send({
+                res.send({
                     status: 200,
                     message:"Login Sucessfull",
                     token:token,
@@ -179,44 +179,19 @@ router.post('/:user/login',(req,res)=>{
 
              }
             else{
+              res.send({status:442})
+
               console.log("Email/password is wrong");
-              return res.json({status:403});
+
             }
-        }
-        catch(error){
-            console.log("error",error.message);
-        };
+
+
     })
 
 })
 
 
-//getAdmminLogin
-router.post("/user/admin",(req,res)=>{
-  const{adminEmail, adminPass}=req.body;
-  mysql.query("Select * from admin where adminEmail=? and adminPass=?",[adminEmail,adminPass],(error,rows)=>{
-    if(rows.length>0){
-      const token=jwt.sign({
-        EmailAddress: rows[0].email
-    }, "secret",
-    {
-        expiresIn: "1h"
-    }
-    );
-    console.log(token);
 
-      res.send({
-        status: 200,
-        token: token
-      });
-
-    }else{
-      console.log(adminPass)
-      console.log(adminEmail)
-      res.send({status:403});
-    }
-  })
-})
 
 //updating available tickets after booking
 router.put('/user/ticket/:TicketID',(req,res)=>{
@@ -326,18 +301,54 @@ router.post('/user/cart',(req,res)=>{
 
 //////////////ADMIN SIDE API////////////////////////////////////////
 
-router.get('/user/userData',(req,res)=>{
-  mysql.query("Select * from user",(error,result,field)=>{
-    if(error){
-      console.log(error)
+//getAdmminLogin
+
+router.post("/user/admin",(req,res)=>{
+  const{adminEmail, adminPass}=req.body;
+  mysql.query("Select * from admin where adminEmail=? and adminPass=?",[adminEmail,adminPass],(error,rows)=>{
+    if(rows.length>0){
+      const token=jwt.sign({
+        EmailAddress: rows[0].email
+    }, "secret",
+    {
+        expiresIn: "1h"
+    }
+    );
+    console.log(token);
+
+      res.send({
+        status: 200,
+        token: token
+      });
+
     }else{
-      //console.log(result);
-      res.status(200).send(result);
+      res.send({status:403});
     }
   })
 })
 
-router.get('/user/AdminEvent',(req,res)=>{
+
+
+//getUser
+router.get('/user/userData',authenticateToken,(req,res)=>{
+  let array=[];
+  mysql.query("Select * from user",(error,result,field)=>{
+    if(error){
+      console.log(error)
+    }else{
+      for(let i=0;i<result.length;i++){
+        array.push(result[i]);
+      }
+      res.send({
+        array,
+        status:200
+      });
+    }
+  })
+})
+
+//getEvents
+router.get('/user/AdminEvent',authenticateToken,(req,res)=>{
   mysql.query("Select * from event",(error,result)=>{
     let array=[];
     if(error){
@@ -348,57 +359,120 @@ router.get('/user/AdminEvent',(req,res)=>{
        array.push(result[i]);
      }
 
-     res.send(array);
+     res.send({
+        array,
+        status:200
+    });
 
     }
   })
 })
-
-router.get('/user/AdminTickets',(req,res)=>{
+//getTickets
+router.get('/user/AdminTickets',authenticateToken,(req,res)=>{
   mysql.query("Select * from ticket",(error,result)=>{
     let array=[];
     if(error){
+
       console.log(error);
     }else{
       for(let i=0;i<result.length;i++){
         array.push(result[i])
       }
-      res.send(array);
+      res.send({array,status:200});
     }
   })
 })
 
+//getTicketCategory
+router.get('/user/AdminTicketCategory',authenticateToken,(req,res)=>{
+  mysql.query("Select * from ticketcategory",(error,result)=>{
+    let array=[];
+    if(error){
+      console.log(error)
+    }else{
+      for(let i=0;i<result.length;i++){
+        array.push(result[i])
+      }
+      res.send({array, status:200});
+    }
+  })
+})
+//addCategory
+router.post('/user/addCat',authenticateToken,(req,res)=>{
+  const{CategoryName}=req.body;
+  mysql.query('Select * from ticketcategory where CategoryName=?',[CategoryName],(error,result)=>{
+    if(result.length>0){
+      res.send({
+        message:"123123123",
+        status:422
+      })
+      console.log('category already exists')
+    }else{
+      mysql.query("INSERT INTO ticketcategory(CategoryName) VALUES(?)",[CategoryName],(error,rows)=>{
+        if(!error){
+          res.send({
+            status:200,
+            message:"123123123",
+          });
+      }else{
+          res.send(error);
+      }
 
-router.delete('/user/eventDel/:EventID',(req,res)=>{
+      })
+    }
+  })
+
+})
+
+//deleteCategory
+router.delete('/user/catDel/:CategoryName',authenticateToken,(req,res)=>{
+  const{CategoryName}=req.params;
+  console.log(CategoryName)
+  mysql.query('Delete from ticketcategory where CategoryName=?',[CategoryName],(error,result)=>{
+    if(error){
+      res.send(error)
+      console.log(error);
+    }else{
+      res.send({status:200});
+    }
+  })
+})
+
+//delete events
+router.delete('/user/eventDel/:EventID',authenticateToken,(req,res)=>{
 
   const{EventID}=req.params;
   mysql.query("Delete from event where Event_ID=? ",[EventID],(error,result,field)=>{
     if(error){
+      res.send(error);
       console.log(error);
     }else
-      res.status(200);
+      res.send({status:200});
   });
 })
 
-
-router.delete('/user/userDel/:userID',(req,res)=>{
+//delete users
+router.delete('/user/userDel/:userID',authenticateToken,(req,res)=>{
 
   const{userID}=req.params;
   mysql.query("Delete from user where UserID=?",[userID],(error,result)=>{
     if(error){
+      res.send(error)
       console.log(error)
     }else{
-      res.status(200);
+      res.send({status:200});
     }
   })
 })
-
-router.delete('/user/ticketDel/:TicketID',(req,res)=>{
+//delete Ticket
+router.delete('/user/ticketDel/:TicketID',authenticateToken,(req,res)=>{
   const{TicketID}=req.params;
   mysql.query("Delete from ticket where TicketID=?",[TicketID],(error,result)=>{
     if(error){
+      res.send(error);
       console.log(error)
     }else{
+      res.send({status:200})
       console.log("done");
     }
   })
@@ -406,7 +480,7 @@ router.delete('/user/ticketDel/:TicketID',(req,res)=>{
 
 
 //addEvent
-router.post('/admin/addEvent',(req,res)=>{
+router.post('/admin/addEvent',authenticateToken,(req,res)=>{
   const{Event_Name, Description,Location,DateTime}=req.body;
   mysql.query('INSERT INTO event(Event_Name,Description,Location,DateTime) VALUES(?,?,?,?);',
   [Event_Name,Description,Location,DateTime]  , (error,rows,field)=>{
@@ -420,7 +494,7 @@ router.post('/admin/addEvent',(req,res)=>{
 })
 
 //updateEvent
-router.put('/admin/updateEvent/:Event_ID',(req,res)=>{
+router.put('/admin/updateEvent/:Event_ID',authenticateToken,(req,res)=>{
   const{Event_ID}=req.params;
 
   const {Event_Name,Description,Location,DateTime}=req.body;
@@ -428,12 +502,53 @@ router.put('/admin/updateEvent/:Event_ID',(req,res)=>{
   mysql.query('Update event set Event_Name=?,Description=?,Location=?,DateTime=?  where Event_ID=? ',[Event_Name,Description,Location,DateTime,Event_ID],(error,rows,field)=>{
     console.log(Event_Name);
     if(!error){
-          res.json({Status: 200});
+          res.send({status: 200});
       }else{
+
           console.log(error);
       }
    });
 });
+
+
+
+//addTicket
+
+router.post('/admin/addTicket',authenticateToken,(req,res)=>{
+  const{Event_ID,price,TicketsAvailable,CategoryName }=req.body;
+
+  mysql.query("Insert into ticket(Event_ID,price,TicketsAvailable,CategoryName) Values(?,?,?,?);",[Event_ID,price,TicketsAvailable,CategoryName],(error,rows)=>{
+    if(!error){
+      return res.json({Status:200})
+    }else{
+      res.json(error)
+
+      console.log(error);
+    }
+  })
+})
+
+//updateTicket
+router.put('/admin/updateTicket/:TicketID',authenticateToken,(req,res)=>{
+  const{TicketID}=req.params;
+  console.log(req.params)
+  const{price,TicketsAvailable}=req.body;
+  mysql.query("Update ticket set price=?, TicketsAvailable=? where TicketID=?",[price,TicketsAvailable,TicketID],(error,result)=>{
+    if(error){
+      res.send(error);
+
+      console.log(error)
+    }else{
+      console.log(TicketID)
+      console.log(price);
+      console.log(TicketsAvailable);
+      res.json({Status:200});
+    }
+
+  })
+})
+
+
 
 
 

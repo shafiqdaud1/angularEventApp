@@ -1,3 +1,4 @@
+import { AlertifyService } from './../alertify.service';
 
 
 import { Router } from '@angular/router';
@@ -18,11 +19,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class EventListComponent implements OnInit {
 
   events!:any;
+  date:any;
+  time:any;
   EventIndex=Number;
+  formattedDate:any=[];
+  formattedTime:any=[];
+  check:any;
 
   constructor(
     private router:Router,
-    private httpClient:HttpClient
+    private httpClient:HttpClient,
+    private alertify: AlertifyService
     ) { }
 
 
@@ -43,10 +50,30 @@ export class EventListComponent implements OnInit {
 
       this.httpClient.get<any>( 'http://localhost:4000/user/events',requestOptions ).subscribe(
         Response =>{
-          //console.log(Response);
-          this.events=Response;
 
-          console.log(this.events)
+          if(Response.status==200){
+            this.events=Response.array;
+
+
+
+          }else{
+            this.alertify.error(Response)
+          }
+
+          console.log(Response.status);
+
+
+          for(let i =0; i<this.events.length;i++){
+
+            //console.log(this.events[i]['DateTime'])
+
+
+
+          }
+
+          console.log(this.check)
+
+
         }
       );
 

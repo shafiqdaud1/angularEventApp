@@ -1,6 +1,7 @@
+import { AlertifyService } from './../alertify.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -19,21 +20,31 @@ export class AddEventComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient, private route: Router) { }
+  constructor(private http: HttpClient, private route: Router,private alertify:AlertifyService) { }
 
   ngOnInit(): void {
   }
 
   addEvent(){
-    const headers= {'content-type':'application/json'};
+    var token=localStorage.getItem('adminToken');
+    console.log(token);
+
+    const headerDict = {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    }
+
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
 
     const data={'Event_Name':this.eventName, 'Description':this.Descrition, 'Location':this.location, 'DateTime':this.datetime}
 
 
-    this.http.post<any>('http://localhost:4000/admin/addEvent',data,{headers}).subscribe(res=>{
+    this.http.post<any>('http://localhost:4000/admin/addEvent',data,requestOptions).subscribe(res=>{
       console.log(res.Status);
       if(res.Status==200){
-        alert('event added')
+        this.alertify.success("Event added  ")
         this.route.navigateByUrl('eventData')
       }
     })
