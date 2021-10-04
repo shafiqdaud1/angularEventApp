@@ -13,21 +13,22 @@ export class AppComponent {
   showButton:boolean=false;
 
 
+
+
   constructor(private route: Router ) {
     route.events.forEach((event) => {
       if(event instanceof NavigationStart) {
-          this.showButton = event.url !== "adminLogin" && event.url!=="login";
+          this.showButton = event.url !== "/login" && event.url !== "/adminLogin" && event.url!=='/register' && event.url!=='/eventList' &&
+          event.url!=='/ticketCategory' && event.url!=='/addTicketCategory' && event.url!=='/addCategory'
+          && event.url!==`/eventDetail/${localStorage.getItem('eventID')}` && event.url!=='/dashboard'
+          && event.url!=='/userData' && event.url!=='/ticketData' && event.url!=='/eventData' && event.url!=='/addevent'
+          && event.url!=='/addticket'
+          && event.url!=='/updateEvent' && event.url!=='/updateTicket' && event.url!=='/forgotPass' ;
       }
     });
   }
-  user( ){
-    this.route.navigateByUrl('login')
-  }
 
-  admin(){
-    this.route.navigateByUrl('adminLogin')
 
-  }
 
 
 }

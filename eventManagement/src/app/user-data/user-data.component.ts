@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute, } from '@angular/router';
 import {  HttpClient,HttpHeaders} from '@angular/common/http';
 import { GridApi } from 'ag-grid-community';
+import { NgPopupsService } from 'ng-popups';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class UserDataComponent implements OnInit {
 
 
 
-  constructor(private route: Router, private router:ActivatedRoute,private httpClient:HttpClient, private alertify: AlertifyService) { }
+  constructor(private route: Router, private router:ActivatedRoute,private httpClient:HttpClient, private alertify: AlertifyService, private popup: NgPopupsService) { }
 
   ngOnInit(): void {
     var token=localStorage.getItem('adminToken');
@@ -51,7 +52,8 @@ export class UserDataComponent implements OnInit {
         this.rowData=res.array;
 
       }  else{
-        this.alertify.error("no data found")
+        console.log(res)
+        this.popup.alert("Data not found")
       }
 
       console.log(res.status)
@@ -105,21 +107,41 @@ export class UserDataComponent implements OnInit {
       return ;
     }
 
-    let a;
+    let a:any;
     a=this.selectedData.UserID;
 
-    if(confirm("Are you sure to delete ")){
-      this.httpClient.delete(`http://localhost:4000/user/userDel/${a}`,requestOptions).subscribe(res=>{
-        this.check.push(res);
-        if(this.check[0]['status']==200){
-          this.alertify.success("user deleted")
-          window.location.reload();
-        }else{
-          this.alertify.error(this.check[0]['sqlMessage'])
-        }
+    // if(confirm("Are you sure to delete ")){
+    //   this.httpClient.delete(`http://localhost:4000/user/userDel/${a}`,requestOptions).subscribe(res=>{
+    //     this.check.push(res);
+    //     if(this.check[0]['status']==200){
+    //       this.alertify.success("user deleted")
+    //       window.location.reload();
+    //     }else{
+    //       this.alertify.error(this.check[0]['sqlMessage'])
+    //     }
 
-      });
-    }
+    //   });
+    // }
+
+    this.popup.confirm('Are you sure you want to delete user?')
+    .subscribe(res => {
+      if (res) {
+        this.httpClient.delete(`http://localhost:4000/user/userDel/${a}`,requestOptions).subscribe(res=>{
+          this.check.push(res);
+          if(this.check[0]['status']==200){
+            window.location.reload();
+
+          }else{
+            this.popup.alert(this.check[0]['sqlMessage'])
+          }
+
+        });
+
+      } else {
+       this.alertify.warning('User not deleted.');
+      }
+    });
+
 
 
 

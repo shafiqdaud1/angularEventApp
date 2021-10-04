@@ -1,3 +1,4 @@
+
 import { TicketCategoryComponent } from './ticket-category/ticket-category.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { EventListComponent } from './event-list/event-list.component';
@@ -15,10 +16,12 @@ import { AddTicketComponent } from './add-ticket/add-ticket.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
+import { HomeComponent } from './home/home.component'
 
 
 
 const routes: Routes = [
+  {path:'', redirectTo: 'HomeComponent',pathMatch: 'full' },
   {path: 'login',component:LoginComponent},
   {path: 'register',component:RegisterComponent},
   {path: 'eventList',component:EventListComponent},
@@ -34,7 +37,8 @@ const routes: Routes = [
   {path: 'updateTicket',component:UpdateTicketComponent},
   {path: 'ticketCategory', component: TicketCategoryComponent},
   {path: 'addTicketCategory', component: AddTicketComponent},
-  {path: 'addCategory',component:AddCategoryComponent}
+  {path: 'addCategory',component:AddCategoryComponent},
+
 ];
 
 @NgModule({

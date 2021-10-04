@@ -55,8 +55,4 @@ export class LoginComponent implements OnInit {
   }
 
 
-  setSession(){
-
-  }
-
 }

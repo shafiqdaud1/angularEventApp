@@ -53,6 +53,10 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  cancel(){
+    this.alertify.warning("User registeration cancelled")
+    this.router.navigateByUrl('login')
+  }
 
 
 

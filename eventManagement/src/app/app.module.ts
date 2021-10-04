@@ -32,6 +32,10 @@ import { TicketCategoryComponent } from './ticket-category/ticket-category.compo
 import { AddCategoryComponent } from './add-category/add-category.component';
 import {MatDialogModule } from '@angular/material/dialog';
 import { AlertifyService } from './alertify.service';
+import { HomeComponent } from './home/home.component';
+import { NgPopupsModule } from 'ng-popups';
+import { ColorAxis } from 'highcharts';
+
 
 
 
@@ -58,6 +62,8 @@ import { AlertifyService } from './alertify.service';
     UpdateTicketComponent,
     TicketCategoryComponent,
     AddCategoryComponent,
+    HomeComponent,
+
 
 
 
@@ -79,7 +85,12 @@ import { AlertifyService } from './alertify.service';
     MatDividerModule,
     AgGridModule.withComponents([]),
     DateTimePickerModule,
-    MatDialogModule
+    MatDialogModule,
+    NgPopupsModule.forRoot({
+      theme: 'dark',
+      okButtonText: 'Yes',
+      color: '#8030c3'
+    }),
 
 
   ],

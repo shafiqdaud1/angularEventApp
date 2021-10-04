@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {AgGridAngular} from 'ag-grid-angular';
 import { GridApi } from 'ag-grid-community';
+import { NgPopupsService } from 'ng-popups';
 
 
 
@@ -19,7 +20,7 @@ export class EventDataComponent implements OnInit {
 
 
 
-  constructor(private route: Router, private httpClient: HttpClient, private alertify: AlertifyService,) { }
+  constructor(private route: Router, private httpClient: HttpClient, private alertify: AlertifyService,private ngPopups: NgPopupsService) { }
 
   columnDefs = [
     { field: 'Event_ID' ,},
@@ -118,10 +119,13 @@ export class EventDataComponent implements OnInit {
       return ;
     }
 
-    let a;
+    let a:any;
     let check:any=[];
     a=this.selectedData.Event_ID;
-    if(confirm("Are you sure to delete ")){
+
+    this.ngPopups.confirm('Are you sure you want to delete this event?')
+  .subscribe(res => {
+    if (res) {
       this.httpClient.delete(`http://localhost:4000/user/eventDel/${a}`,requestOptions).subscribe(
         response=>{
 
@@ -137,8 +141,13 @@ export class EventDataComponent implements OnInit {
 
         }
       );
-
+    } else {
+      this.alertify.warning('Event not deleted')
     }
+  });
+
+
+
 
 
 

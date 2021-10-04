@@ -1,9 +1,14 @@
 
 <div class="h-50 p-5 text-white bg-dark rounded-3">
   <div class="row">
-    <div class="col-md-8"></div>
+    <div class="col-md-8">
+      <a href="" style="padding-right: 10px;" >
+        <i class="fa fa-shopping-cart" style="font-size:48px;color:red"></i>
+      </a>
+    </div>
     <div class="col-md-4">
       <nav style="padding-left: 150px;">
+
         <a href="/eventList" style="font-size: 22px; color: white; text-decoration: none; " >Home</a>
         <a href="" style="padding-left: 20px;font-size: 22px;color: white;text-decoration: none;">Booking</a>
         <a href="/login" (click)="logout()" style="padding-left: 20px;font-size: 22px;color: white; text-decoration: none;">LogOut</a>
@@ -29,32 +34,33 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-5 mx-auto my-5" *ngFor="let card of events">
+    <div class="col-md-1"></div>
+    <div class="col-md-3"  *ngFor="let card of events"  >
 
-      <mdb-card>
-        <mdb-card-body>
+      <mdb-card style="border-radius:20px;">
 
-          <mdb-card-title>
-            <h4>EventName: {{card.Event_Name}}</h4>
+
+          <mdb-card-title style="margin-left:10px ; margin-top: 10px;">
+              <span style="font-weight: bold;">EventName: </span>{{card.Event_Name}}
           </mdb-card-title>
 
-          <mdb-card-text>
+          <mdb-card-text style="margin-left:10px ;">
            <span style="font-weight: bold;">Description:</span>  {{card.Description}}
           </mdb-card-text>
-          <mdb-card-text>
-            <span style="font-weight: bold;">Date</span>: {{card.DateTime | date}}
+          <mdb-card-text style="margin-left:10px ;">
+            <span style="font-weight: bold;margin-right: 45px;">Date:</span> {{card.DateTime | date}}
           </mdb-card-text>
-          <mdb-card-text>
+          <mdb-card-text style="margin-left:10px ;">
 
-            <span style="font-weight: bold;">Time</span>: {{card.DateTime | date:'hh:mm a'}}
-          </mdb-card-text>
-
-          <mdb-card-text>
-            <span style="font-weight: bold; margin-right: 5px;"> Venue:</span>{{card.Location}}
+            <span style="font-weight: bold;margin-right: 41px;">Time:</span> {{card.DateTime | date:'hh:mm a'}}
           </mdb-card-text>
 
-          <button (click)="detail(card.Event_ID)" mdbBtn color="primary">Details</button>
-        </mdb-card-body>
+          <mdb-card-text style="margin-left:10px ;">
+            <span style="font-weight: bold; margin-right: 38px;"> Venue:</span>{{card.Location}}
+          </mdb-card-text>
+
+          <button style="border-radius: 20px;" (click)="detail(card.Event_ID)" mdbBtn color="primary">Details</button>
+
       </mdb-card>
     </div>
   </div>

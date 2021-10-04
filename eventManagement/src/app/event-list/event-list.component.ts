@@ -82,6 +82,7 @@ export class EventListComponent implements OnInit {
   }
 
   detail(eventIndex: Number){
+    localStorage.setItem('eventID',eventIndex.toString())
     this.router.navigate(['eventDetail',eventIndex]);
   }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http'
 import { GridApi } from 'ag-grid-community';
+import { NgPopupsService } from 'ng-popups';
 
 @Component({
   selector: 'app-ticket-data',
@@ -11,7 +12,7 @@ import { GridApi } from 'ag-grid-community';
 })
 export class TicketDataComponent implements OnInit {
 
-  constructor(private route: Router, private httpClient: HttpClient,private alertify: AlertifyService) { }
+  constructor(private route: Router, private httpClient: HttpClient,private alertify: AlertifyService, private ngPopups: NgPopupsService) { }
 
   columnDefs = [
     { field: 'Event_ID' },
@@ -100,9 +101,12 @@ export class TicketDataComponent implements OnInit {
       return ;
     }
 
-    let a;
+    let a:any;
     a=this.selectedData.TicketID;
-    if(confirm("Are you sure to delete ")){
+
+    this.ngPopups.confirm('Are you sure you want to delele this ticket?')
+  .subscribe(res => {
+    if (res) {
       this.httpClient.delete(`http://localhost:4000/user/ticketDel/${a}`,requestOptions).subscribe(res=>{
         console.log(res);
         this.del.push(res);
@@ -111,10 +115,16 @@ export class TicketDataComponent implements OnInit {
           window.location.reload();
         }else{
           console.log(this.del[0])
-          this.alertify.error(this.del[0]["sqlMessage"])
+          this.ngPopups.prompt(this.del[0]["sqlMessage"])
         }
       });
+    } else {
+      this.alertify.warning('Ticket not deleted');
     }
+  });
+
+
+
 
 
 

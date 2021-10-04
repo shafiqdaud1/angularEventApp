@@ -1,8 +1,14 @@
+
 <div class=" p-5 text-white bg-dark rounded-3">
   <div class="row">
-    <div class="col-md-8"></div>
+    <div class="col-md-8">
+      <a href="" style="padding-right: 10px;" >
+        <i class="fa fa-shopping-cart" style="font-size:48px;color:red"></i>
+      </a>
+    </div>
     <div class="col-md-4">
       <nav style="padding-left: 80px;">
+
         <a href="/eventList" style="font-size: 28px;color: white;text-decoration: none;">Home</a>
         <a href="" style="padding-left: 35px;font-size: 28px; color: white;text-decoration: none;">Booking</a>
         <a href="/login" (click)="logout()" style="padding-left: 35px;font-size: 28px;color: white;text-decoration: none;">LogOut</a>
@@ -35,12 +41,14 @@
 
 <div class="container" >
   <div class="row">
-    <div class="col-md-3" *ngFor='let items of eventDetail'>
-      <mdb-card *ngIf= 'eventDetail?.id === items.eventID'>
-        <mdb-card-title>Category:{{items.CategoryName}}</mdb-card-title>
-        <mdb-card-text>Price: {{items.price}}</mdb-card-text>
-        <mdb-card-text>Tickets Available:{{items.TicketsAvailable}}</mdb-card-text>
-        <button>Book now</button>
+    <div class="col-md-1"></div>
+    <div class="col-md-3 " *ngFor='let items of eventDetail'>
+      <mdb-card *ngIf= 'eventDetail?.id === items.eventID' style="border-radius: 10px;"  >
+        <br>
+        <mdb-card-title style="margin-left: 10px;"><span style="font-weight: bold;">Category: </span>&nbsp;{{items.CategoryName}}</mdb-card-title>
+        <mdb-card-text style="margin-left: 10px;"><span style="font-weight: bold; margin-right: 22px; " >Price: </span> &nbsp; {{items.price}}</mdb-card-text>
+        <mdb-card-text style="margin-left: 10px;"><span style="font-weight: bold;"> Available:</span> &nbsp; {{items.TicketsAvailable}}</mdb-card-text>
+        <button class="btn-primary" style="width: 50%; margin-left: 20%; border-radius:  20px;" mdbWavesEffect>Add To Cart</button>
 
 
       </mdb-card>

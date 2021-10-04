@@ -70,7 +70,7 @@
     </div>
     <div class="col-3"style="margin-top: 28%"> <p style="font-size: 40px; font-weight: bold;">Event Booking</p></div>
     <div class="col-3"></div>
-    <div class="col-3" style="margin-top: 17%;">
+    <div class="col-3" style="margin-top: 10%;">
       <h1 style="font-size: 25px;">Registration Form</h1>
       <br>
       <p style="font-weight: bold;font-size: 20px;"> First Name <input type="text" [(ngModel)]="FName" > </p>
@@ -82,7 +82,9 @@
      <p style="font-weight: bold;font-size: 20px;">Password <input type="password" [(ngModel)]="password"></p>
      <br>
      <p style="font-weight: bold;font-size: 20px; ">Phone Number <input type="number" [(ngModel)]="number"></p>
-      <button class="btn btn-primary" (click)="SignUp()" > Sign Up</button>
+      <button class="btn btn-primary" (click)="SignUp()" > Sign Up</button> &nbsp;
+      <button class="btn btn-primary" (click)="cancel()" > Cancel</button>
+
 
     </div>
   </div>

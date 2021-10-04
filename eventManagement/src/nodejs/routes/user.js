@@ -5,6 +5,8 @@ const mysql=require("../connection");
 const jwt=require("jsonwebtoken");
 const authenticateToken=require("../middleware");
 
+const bcrypt=require('bcrypt')
+
 
 
 
@@ -126,10 +128,10 @@ router.post('/user/booking',authenticateToken,(req,res)=>{
 })
 
 //register user api
-router.post('/:user',(req,res)=>{
+router.post('/:user',async(req,res)=>{
     const { EmailAddress,password,FName,LName,phoneNumber}=req.body;
 
-    mysql.query('Select Count(*) As cnt, password from user WHERE EmailAddress=? ',[EmailAddress],(error,rows)=>{
+    mysql.query('Select Count(*) As cnt, password from user WHERE EmailAddress=? ',[EmailAddress],async(error,rows)=>{
         if(error){
             console.log(error);
         }
@@ -137,8 +139,11 @@ router.post('/:user',(req,res)=>{
             if(rows[0].cnt > 0){
                 res.status(403).json({Status: 'User already exists'});
             }else{
-                mysql.query('INSERT INTO user(EmailAddress  ,password,FName,LName,phoneNumber) values(?,?,?,?,?);',
-                [EmailAddress,password,FName,LName,phoneNumber], (error,rows,field)=>{
+              const hash=await bcrypt.hash(password,10);
+              console.log(hash)
+
+                mysql.query('INSERT INTO user(EmailAddress,password,FName,LName,phoneNumber) values(?,?,?,?,?);',
+                [EmailAddress,hash,FName,LName,phoneNumber], (error,rows,field)=>{
                 if(!error){
                       return res.send({status:200});
                 }else{
@@ -156,37 +161,47 @@ let user;
 let userName;
 router.post('/:user/login',(req,res)=>{
     const{EmailAddress,password}=req.body;
-    mysql.query('Select UserID, FName, EmailAddress AS email, PASSWORD AS pas from user WHERE EmailAddress=? AND password=?'
-    ,[EmailAddress,password],(error,rows)=>{
 
-            if(rows.length > 0  ){
-                const token=jwt.sign({
-                    EmailAddress: rows[0].email
-                }, "secret",
-                {
-                    expiresIn: "1h"
-                }
-                );
-                user=rows[0]['UserID'].toString();
-                userName=rows[0]['FName'];
-                res.send({
-                    status: 200,
-                    message:"Login Sucessfull",
-                    token:token,
-                    user,
-                    userName
-                });
+    mysql.query('Select * from user where EmailAddress=?',[EmailAddress],async(error,rows)=>{
+      if(!error){
+        if(rows.length>0){
+          console.log(rows[0].password)
+          console.log(password)
 
-             }
-            else{
-              res.send({status:442})
 
-              console.log("Email/password is wrong");
-
+          const validPass=await bcrypt.compare(password,rows[0].password)
+          console.log(validPass)
+          if(validPass)
+          {
+            const token=jwt.sign({
+              EmailAddress: rows[0].email
+            }, "secret",
+            {
+              expiresIn: "1h"
             }
+            );
+            user=rows[0]['UserID'].toString();
+            userName=rows[0]['FName'];
+            res.send({
+                status: 200,
+                message:"Login Sucessfull",
+                token:token,
+                user,
+                userName
+              });
+        }else{
+          res.send({status:442})
+        }
 
+        }else{
+          res.send({status:442})
+        }
 
+      }else{
+        res.send({status:442})
+      }
     })
+
 
 })
 

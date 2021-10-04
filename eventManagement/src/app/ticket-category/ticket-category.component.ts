@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http'
 import { Router, ActivatedRoute } from '@angular/router';
 import { GridApi } from 'ag-grid-community';
+import { NgPopupsService } from 'ng-popups';
 
 @Component({
   selector: 'app-ticket-category',
@@ -20,7 +21,7 @@ export class TicketCategoryComponent implements OnInit {
 
   ];
 
-  constructor(private route: Router, private httpClient: HttpClient, private alertify:AlertifyService, ) { }
+  constructor(private route: Router, private httpClient: HttpClient, private alertify:AlertifyService, private ngPopups: NgPopupsService ) { }
 
   ngOnInit(): void {
     var token=localStorage.getItem('adminToken');
@@ -98,11 +99,13 @@ export class TicketCategoryComponent implements OnInit {
       return ;
     }
 
-    let a;
+    let a:any;
     a=this.selectedData.CategoryName;
 
 
-    if(confirm("Are you sure to delete ")){
+    this.ngPopups.confirm('Are you sure you want to delete this category?')
+  .subscribe(res => {
+    if (res) {
       this.httpClient.delete(`http://localhost:4000/user/catDel/${a}`,requestOptions).subscribe(Response=>{
         this.check.push(Response);
       if(this.check[0]['status']==200){
@@ -114,9 +117,13 @@ export class TicketCategoryComponent implements OnInit {
       }
 
     });
-
-
+    } else {
+      this.alertify.warning('Ticket not deleted')
     }
+  });
+
+
+
 
 
 
