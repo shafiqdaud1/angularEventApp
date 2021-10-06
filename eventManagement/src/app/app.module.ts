@@ -35,6 +35,8 @@ import { AlertifyService } from './alertify.service';
 import { HomeComponent } from './home/home.component';
 import { NgPopupsModule } from 'ng-popups';
 import { ColorAxis } from 'highcharts';
+import { StoreModule } from '@ngrx/store';
+import { CartComponent } from './cart/cart.component';
 
 
 
@@ -63,6 +65,7 @@ import { ColorAxis } from 'highcharts';
     TicketCategoryComponent,
     AddCategoryComponent,
     HomeComponent,
+    CartComponent,
 
 
 
@@ -91,6 +94,7 @@ import { ColorAxis } from 'highcharts';
       okButtonText: 'Yes',
       color: '#8030c3'
     }),
+    StoreModule.forRoot({}, {}),
 
 
   ],

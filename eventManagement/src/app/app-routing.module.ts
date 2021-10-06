@@ -1,3 +1,4 @@
+import { CartComponent } from './cart/cart.component';
 
 import { TicketCategoryComponent } from './ticket-category/ticket-category.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path: 'ticketCategory', component: TicketCategoryComponent},
   {path: 'addTicketCategory', component: AddTicketComponent},
   {path: 'addCategory',component:AddCategoryComponent},
+  {path: 'cart',component:CartComponent}
 
 ];
 

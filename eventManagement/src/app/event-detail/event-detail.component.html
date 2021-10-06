@@ -2,9 +2,11 @@
 <div class=" p-5 text-white bg-dark rounded-3">
   <div class="row">
     <div class="col-md-8">
-      <a href="" style="padding-right: 10px;" >
+      <button style="background-color: transparent; " routerLink="/cart"  ><i class="fa fa-shopping-cart" style="font-size:48px;color:red"></i></button>
+
+      <!-- <a href="/cart" style="padding-right: 10px;" >
         <i class="fa fa-shopping-cart" style="font-size:48px;color:red"></i>
-      </a>
+      </a> -->
     </div>
     <div class="col-md-4">
       <nav style="padding-left: 80px;">
@@ -48,7 +50,7 @@
         <mdb-card-title style="margin-left: 10px;"><span style="font-weight: bold;">Category: </span>&nbsp;{{items.CategoryName}}</mdb-card-title>
         <mdb-card-text style="margin-left: 10px;"><span style="font-weight: bold; margin-right: 22px; " >Price: </span> &nbsp; {{items.price}}</mdb-card-text>
         <mdb-card-text style="margin-left: 10px;"><span style="font-weight: bold;"> Available:</span> &nbsp; {{items.TicketsAvailable}}</mdb-card-text>
-        <button class="btn-primary" style="width: 50%; margin-left: 20%; border-radius:  20px;" mdbWavesEffect>Add To Cart</button>
+        <button class="btn-primary" style="width: 50%; margin-left: 20%; border-radius:  20px;" mdbWavesEffect (click)="cart(items)">Add To Cart</button>
 
 
       </mdb-card>

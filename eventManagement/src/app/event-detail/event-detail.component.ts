@@ -1,3 +1,5 @@
+import { cartService } from './../cart.service';
+
 import {  NgPopupsService } from 'ng-popups';
 import { AlertifyService } from './../alertify.service';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +8,7 @@ import { Params,ActivatedRoute, Router, NavigationStart } from '@angular/router'
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { HostListener } from '@angular/core';
 import { PlatformLocation } from '@angular/common'
+
 
 
 
@@ -31,7 +34,8 @@ export class EventDetailComponent implements OnInit {
     private httpClient: HttpClient,
     private alertify:AlertifyService,
     private location: PlatformLocation,
-    private popup: NgPopupsService
+    private popup: NgPopupsService,
+    private service : cartService
     ) {
       location.onPopState(()=>{
         localStorage.setItem('id','');
@@ -46,6 +50,7 @@ export class EventDetailComponent implements OnInit {
 
 
   ngOnInit() {
+    //this.cart
 
 
     var token=localStorage.getItem('data');
@@ -75,10 +80,6 @@ export class EventDetailComponent implements OnInit {
           if(Response.status==200){
             this.eventDetail=Response.array;
 
-
-
-
-
           }else{
             this.alertify.error(Response)
           }
@@ -93,6 +94,16 @@ export class EventDetailComponent implements OnInit {
 
 
 
+  }
+
+  cart(data:any){
+    this.service.addToCart(data);
+
+
+  }
+
+  next(data:any){
+    this.router.navigateByUrl('cart',)
   }
 
 

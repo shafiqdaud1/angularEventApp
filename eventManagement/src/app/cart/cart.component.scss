@@ -1,0 +1,59 @@
+.card{
+  height: 65vh;
+  width: 25hw;
+  padding: 25px;
+}
+
+li{
+  display: inline;
+  float: left;
+}
+li h1{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+li a{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center  ;
+}
+
+h4,h6{
+  font-weight: 400;
+}
+
+.center img{
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  outline: none;
+ margin-top: -300px;
+}
+
+.card-table{
+  position: relative;
+  display: flex;
+  flex-direction:column ;
+  min-width: none;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid ;
+  border-radius: .25rem;
+}
+
+

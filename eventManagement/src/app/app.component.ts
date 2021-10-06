@@ -23,7 +23,7 @@ export class AppComponent {
           && event.url!==`/eventDetail/${localStorage.getItem('eventID')}` && event.url!=='/dashboard'
           && event.url!=='/userData' && event.url!=='/ticketData' && event.url!=='/eventData' && event.url!=='/addevent'
           && event.url!=='/addticket'
-          && event.url!=='/updateEvent' && event.url!=='/updateTicket' && event.url!=='/forgotPass' ;
+          && event.url!=='/updateEvent' && event.url!=='/updateTicket' && event.url!=='/forgotPass' && event.url !== '/cart' ;
       }
     });
   }
