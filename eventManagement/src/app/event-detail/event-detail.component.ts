@@ -98,6 +98,7 @@ export class EventDetailComponent implements OnInit {
 
   cart(data:any){
     this.service.addToCart(data);
+    this.alertify.success('Item added to cart')
 
 
   }
@@ -109,6 +110,7 @@ export class EventDetailComponent implements OnInit {
 
 
   logout(){
+    this.alertify.success('User loggedOut')
 
     localStorage.setItem('data','')
   }

@@ -37,6 +37,7 @@ import { NgPopupsModule } from 'ng-popups';
 import { ColorAxis } from 'highcharts';
 import { StoreModule } from '@ngrx/store';
 import { CartComponent } from './cart/cart.component';
+import { ShopReducer } from './store/reducer';
 
 
 
@@ -94,7 +95,8 @@ import { CartComponent } from './cart/cart.component';
       okButtonText: 'Yes',
       color: '#8030c3'
     }),
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({  shopping: ShopReducer}),
+
 
 
   ],

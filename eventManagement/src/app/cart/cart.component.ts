@@ -1,3 +1,4 @@
+import { AlertifyService } from './../alertify.service';
 import { Component, OnInit } from '@angular/core';
 import {cartService} from '../cart.service'
 
@@ -9,7 +10,8 @@ import {cartService} from '../cart.service'
 export class CartComponent implements OnInit {
   array:any=[];
   price: number=0;
-  constructor(private service: cartService) { }
+  show:boolean=false;
+  constructor(private service: cartService, private alertify:  AlertifyService) { }
 
   ngOnInit(): void {
 
@@ -20,6 +22,10 @@ export class CartComponent implements OnInit {
   getDetail(){
 
     this.array=this.service.getCart();
+
+    if(this.array.length==0){
+      this.show==false;
+    }
 
     for(let i=0; i<this.array.length;i++){
       console.log(this.array[i]['price'])
@@ -40,8 +46,10 @@ export class CartComponent implements OnInit {
      }
 
    }
+   localStorage.setItem('cartItem',JSON.stringify(this.array));
     console.log(this.array)
     this.price=this.price-data['price']
+    this.alertify.warning('Item removed from cart')
   }
 
 }

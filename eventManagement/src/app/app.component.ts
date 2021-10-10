@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as $ from 'jquery' ;
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AppComponent {
 
 
 
-  constructor(private route: Router ) {
+  constructor(private route: Router, ) {
     route.events.forEach((event) => {
       if(event instanceof NavigationStart) {
           this.showButton = event.url !== "/login" && event.url !== "/adminLogin" && event.url!=='/register' && event.url!=='/eventList' &&

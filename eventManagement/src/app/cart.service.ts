@@ -18,12 +18,11 @@ export class cartService{
   }
 
   getCart(){
-    let a=localStorage.getItem('cartItem')
-    var b=JSON.stringify(a)
+    let a= localStorage.getItem('cartItem')
+    var b=JSON.parse(a!)
     console.log(b)
-    this.check.push(b)
-    console.log(this.check)
-    return this.cart ;
+
+    return b ;
   }
 
 
